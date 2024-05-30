@@ -42,13 +42,13 @@ def main():
         out_dir = argv[4]
     else:
         out_dir = 'out'
+    
     num_proposal = int(argv[-1])
     
     cfg = Config.fromfile(model_cfg_dict)
 
     model = init_detector(cfg, checkpoint_path)
     model.test_cfg.rpn.max_per_img = num_proposal
-    
     
     img = mmcv.imread(img_path)
     img_name = img_path.split('/')[-1]
@@ -61,7 +61,7 @@ def main():
         color1 = [(0, 255, 0) for i in range(boxes1.shape[0])]
         
         model.test_cfg.rpn.max_per_img = 1000
-        res     = inference_detector(model, img)
+        res     = inference_detector(model, img)    
         boxes2  = res.pred_instances.bboxes.detach().cpu().numpy()
         color2  = [(0, 0, 255) for i in range(boxes2.shape[0])]
         
@@ -78,6 +78,7 @@ def main():
         boxes   = rpn_results_list[0].bboxes.detach().cpu().numpy()
         color   = 'green'
         mmcv.imshow_bboxes(img, boxes, colors=color, show=False, out_file=out_dir+'/'+img_name)
+
         
 if __name__ == '__main__':
     main()

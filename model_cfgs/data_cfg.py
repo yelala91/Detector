@@ -1,6 +1,6 @@
 # dataset settings
 dataset_type = 'CocoDataset'
-data_root = '../data/coco/voc0712/'
+data_root = 'data/coco/voc0712/'
 
 metainfo = {
     'classes': ('aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat',

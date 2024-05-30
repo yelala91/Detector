@@ -1,14 +1,20 @@
 # 基于 MMDetection 框架训练目标检测模型 Faster R-CNN和 YOLO v3
 
+## 所需依赖
+```
+完整的 MMDetection>=3.0 框架
+```
+
 ## 训练
 
 ### 数据集准备
 
-在项目根目录新建文件夹 ```data/annotations``` 和 ```data/VOCdevkit``` 下载 PASCAL2007 和 PASCAL2012, 解压后将 ```VOC2007``` 和 ```VOC2012``` 两个文件夹复制到目录 ```data/VOCdevkit``` 下, 然后终端运行如下命令将数据转换成coco格式
+在项目根目录新建文件夹 ```data/coco/voc0712/annotations``` 和 ```data/coco/voc0712/VOCdevkit``` 下载 PASCAL2007 和 PASCAL2012, 解压后将 ```VOC2007``` 和 ```VOC2012``` 两个文件夹复制到目录 ```data/coco/voc0712/VOCdevkit``` 下, 然后终端运行如下命令将数据转换成coco格式
 ```
 python tools/dataset_converters/pascal_voc.py \
-                          data/coco/VOCdevkit \
-                        data/coco/annotations
+                  data/coco/voc0712/VOCdevkit \
+             -o data/coco/voc0712/annotations \
+                            --out-format coco
 ```
 
 ### 开始训练

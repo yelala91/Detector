@@ -188,7 +188,7 @@ def parse_args():
     parser.add_argument('-o', '--out-dir', help='output path')
     parser.add_argument(
         '--out-format',
-        default='coco',
+        default='pkl',
         choices=('pkl', 'coco'),
         help='output format, "coco" indicates coco annotation format')
     args = parser.parse_args()
