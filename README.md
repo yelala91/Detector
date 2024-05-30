@@ -33,7 +33,7 @@ python tools/train.py model_cfgs/faster_rcnn_cfg.py
 ```
 python infer.py ${模型的配置文件地址}$ ${权重地址}$ ${图片地址}$ ${输出结果的地址}$
 ```
-其中 模型的配置文件地址 在这里分别是 ```model_cfgs/faster_rcnc_cfg.py``` 或 ```model_cfgs/yolov3_cfg.py```.
+其中 模型的配置文件地址 在这里分别是 ```model_cfgs/faster_rcnn_cfg.py``` 或 ```model_cfgs/yolov3_cfg.py```.
 
 ## 获取 RPN 生成的 proposal box
 
