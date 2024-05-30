@@ -568,6 +568,7 @@ class BBoxHead(BaseModule):
             results.bboxes = det_bboxes[:, :-1]
             results.scores = det_bboxes[:, -1]
             results.labels = det_labels
+            
         return results
 
     def refine_bboxes(self, sampling_results: Union[List[SamplingResult],

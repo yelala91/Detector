@@ -333,7 +333,7 @@ class StandardRoIHead(BaseRoIHead):
                 score_per_cls=rcnn_test_cfg is None)
 
         bbox_results = self._bbox_forward(x, rois)
-
+        
         # split batch bbox prediction back to each image
         cls_scores = bbox_results['cls_score']
         bbox_preds = bbox_results['bbox_pred']
@@ -352,7 +352,7 @@ class StandardRoIHead(BaseRoIHead):
                     bbox_preds, num_proposals_per_img)
         else:
             bbox_preds = (None, ) * len(proposals)
-
+        
         result_list = self.bbox_head.predict_by_feat(
             rois=rois,
             cls_scores=cls_scores,

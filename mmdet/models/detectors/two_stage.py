@@ -230,6 +230,7 @@ class TwoStageDetector(BaseDetector):
         if batch_data_samples[0].get('proposals', None) is None:
             rpn_results_list = self.rpn_head.predict(
                 x, batch_data_samples, rescale=False)
+            # print(rpn_results_list[0].bboxes.shape)
         else:
             rpn_results_list = [
                 data_sample.proposals for data_sample in batch_data_samples

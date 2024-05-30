@@ -33,19 +33,25 @@ def preprocess(img, model):
     return inputs, data_samples, feature
 
 def main():
-    compare_last_result = False
+    compare_last_result = True
 
     model_cfg_dict  = argv[1]
     checkpoint_path = argv[2]
     img_path        = argv[3]
-    out_dir         = argv[4]
+    if len(argv) == 5:
+        out_dir = argv[4]
+    else:
+        out_dir = 'out'
+    num_proposal = int(argv[-1])
     
     cfg = Config.fromfile(model_cfg_dict)
 
     model = init_detector(cfg, checkpoint_path)
+    model.test_cfg.rpn.max_per_img = num_proposal
     
-
+    
     img = mmcv.imread(img_path)
+    img_name = img_path.split('/')[-1]
     inputs, data_samples, feature = preprocess(img, model)
     # get the proposal bboxes
     rpn_results_list = model.rpn_head.predict(feature, data_samples, rescale=False)
@@ -54,7 +60,8 @@ def main():
         boxes1 = rpn_results_list[0].bboxes.detach().cpu().numpy()
         color1 = [(0, 255, 0) for i in range(boxes1.shape[0])]
         
-        res     = inference_detector(model, inputs)
+        model.test_cfg.rpn.max_per_img = 1000
+        res     = inference_detector(model, img)
         boxes2  = res.pred_instances.bboxes.detach().cpu().numpy()
         color2  = [(0, 0, 255) for i in range(boxes2.shape[0])]
         
@@ -64,13 +71,13 @@ def main():
         
         for bbox, color in zip(boxes, colors):  
             x1, y1, x2, y2 = bbox  
-            cv2.rectangle(img, (x1, y1), (x2, y2), color, 1)  # 2 是线条的粗细
+            cv2.rectangle(img, (x1, y1), (x2, y2), color, 1) 
         
-        cv2.imwrite(out_dir, img)
+        cv2.imwrite(out_dir+'/'+img_name, img)
     else:
         boxes   = rpn_results_list[0].bboxes.detach().cpu().numpy()
         color   = 'green'
-        mmcv.imshow_bboxes(img, boxes, colors=color, show=False, out_file=out_dir)
+        mmcv.imshow_bboxes(img, boxes, colors=color, show=False, out_file=out_dir+'/'+img_name)
         
 if __name__ == '__main__':
     main()
